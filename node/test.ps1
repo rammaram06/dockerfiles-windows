@@ -9,6 +9,5 @@ function testVersion($majorMinorPatch) {
   $ErrorActionPreference = 'Stop';
 }
 
-testVersion "4.8.2"
-testVersion "6.10.2"
-testVersion "7.9.0"
+testVersion "6.11.0"
+testVersion "8.1.3"

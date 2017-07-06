@@ -3,9 +3,9 @@ FROM microsoft/windowsservercore as msi
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-ENV MONGO_VERSION 3.4.2
+ENV MONGO_VERSION 3.4.5
 ENV MONGO_DOWNLOAD_URL http://downloads.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-${MONGO_VERSION}-signed.msi
-ENV MONGO_DOWNLOAD_SHA256 ff8a4226de8a8d766ae0713dd94663e965cc0505540026e2483cb6351a55eb23
+ENV MONGO_DOWNLOAD_SHA256 245ec3657d6f70095c5a2939cf112312fdb721fee01c8f559cef0b7bc05ff077
 
 RUN Write-Host ('Downloading {0} ...' -f $env:MONGO_DOWNLOAD_URL)
 RUN Invoke-WebRequest -Uri $env:MONGO_DOWNLOAD_URL -OutFile 'mongodb.msi'
@@ -20,8 +20,8 @@ RUN Remove-Item C:\mongodb\bin\*.pdb
 FROM microsoft/nanoserver
 
 COPY --from=msi C:\mongodb\ C:\mongodb\
-COPY --from=msi C:\windows\system32\msvcp140.dll C:\mongodb\bin
-COPY --from=msi C:\windows\system32\vcruntime140.dll C:\mongodb\bin
+COPY --from=msi C:\windows\system32\msvcp140.dll C:\windows\system32
+COPY --from=msi C:\windows\system32\vcruntime140.dll C:\windows\system32
 
 RUN mkdir C:\data\db & setx /m PATH %PATH%;C:\mongodb\bin
 
